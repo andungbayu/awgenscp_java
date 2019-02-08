@@ -1,0 +1,51 @@
+import awgenscp_func.awgfunct;
+import awgenscp_func.matfunct;
+import awgenscp_func.noaafunc;
+
+public class testmain {
+    
+    // function to test 
+    public static void main(String[] args) {
+
+       // define variable
+       matfunct matlab = new matfunct();
+       awgfunct awg = new awgfunct();
+         
+       // test add time attribute
+       awg.addtime_attrib_rain("rain.txt","","212","rain.awg",1961,1,1); 
+       awg.addtime_attrib_temp("temp.txt","","212","temp.awg",1961,1,1); 
+       awg.addtime_attrib_predictnow("nino_obs.txt","","212","predict_now.awg",1961,1); 
+       awg.addtime_attrib_predictfuture("CFSv2_data.txt","","212","predict_future.awg",2018,2); 
+	 
+       // test get rain parameter
+       awg.getrain_param("rain.awg","","212",1961,1,1965,12);
+       awg.gettemp_param("temp.awg","","212",1961,1,1965,12);
+ 
+      // tes formatted predictor function
+      awg.predictnow_format("predict_now.awg","","212",1961,1,1965,12);        
+
+      // test rain and temp model builder
+      awg.build_rainmodel("rain_param.awg","predictnow_param.awg","","212",1);
+      awg.build_tempmodel("temp_param.awg","predictnow_param.awg","","212",1);
+
+      // test simulation for all ensemble
+      awg.simulate_rain("rain_regress.awg","predict_future.awg","","212",1);
+      awg.simulate_temp("temp_regress.awg","predict_future.awg","","212",1);
+
+      // test simulation for mean ensemble
+      awg.simulate_rain_meanens("rain_regress.awg","predict_future.awg","","212",1);
+      awg.simulate_temp_meanens("temp_regress.awg","predict_future.awg","","212",1);
+
+     // convert data to monthly
+     awg.getrain_month("rain_sim.awg","","212");
+     awg.getrain_monthmean("rain_sim_meanens.awg","","212");
+     awg.gettemp_month("temp_sim.awg","","212");
+     awg.gettemp_monthmean("temp_sim_meanens.awg","","212");
+
+
+
+
+
+    // end void main
+    }
+} 
